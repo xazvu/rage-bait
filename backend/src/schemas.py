@@ -6,6 +6,7 @@ from pydantic import BaseModel, EmailStr
 class ActivityBase(BaseModel):
     name: str
     description: str
+    budget: float
     category: str
     mod: str
     timestamp: str
@@ -15,6 +16,9 @@ class ActivityBase(BaseModel):
 class ActivityPhotoBase(BaseModel):
     url: str
     is_main: bool
+    activity_id: int
 
-class ActivityPhotoCreate(ActivityPhotoBase):
-    activity_id: str
+
+class ActivityPhotoCreate(BaseModel):
+    url: str
+    is_main: bool

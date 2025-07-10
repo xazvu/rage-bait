@@ -50,7 +50,7 @@ class ActivityPhoto(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     activity_id: Mapped[int] = mapped_column(ForeignKey("activities.id"))
     url: Mapped[str] = mapped_column(String(255))
-
+    is_main: Mapped[bool] = mapped_column(Boolean, default=False)
     activity: Mapped["Activity"] = relationship("Activity", back_populates="photos")
 
 

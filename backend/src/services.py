@@ -3,9 +3,9 @@ from unicodedata import category
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from db.models import User, Activity, ActivityPhoto
+from db.models import User, Activity, ActivityPhoto, UserPreferences
 from db.engine import get_db
-from schemas import ActivityBase, ActivityPhotoBase
+from schemas import ActivityBase, ActivityPhotoBase, ActivityPhotoCreate
 
 
 def get_activities(
@@ -29,6 +29,7 @@ def create_activity(
         description=activate_create.description,
         category=activate_create.category,
         mod=activate_create.mod,
+        budget=activate_create.budget,
         timestamp=activate_create.timestamp,
         date_of_activity=activate_create.date_of_activity
     )
@@ -39,14 +40,32 @@ def create_activity(
 
 
 def create_activity_photos(
-        activate_photo_create: ActivityPhotoBase,
+        activity_id: int,
+        activate_photo_create: list[ActivityPhotoCreate],
         session: Session = Depends(get_db),
 ):
-    photos = [ActivityPhoto(
-        url=activate_photo_create.url,
-        activity_id=activate_photo_create.activity_id
-    )
-        for url in activate_photo_create]
-
+    activity = session.query(Activity).get(activity_id == activate_photo_create)
+    photos = [
+        ActivityPhoto(
+            url=photo.url,
+            is_main=photo.is_main,
+            activity_id=activity_id
+        ) for photo in activate_photo_create
+    ]
     session.add_all(photos)
+    session.commit()
+    return photos
 
+
+def get_user_preferences(
+        session: Session = Depends(get_db),
+):
+    return session.query(UserPreferences).all()
+
+
+def get_user(
+        user_id: str = None,
+        email: str = None,
+        session: Session = Depends(get_db)
+):
+    return session.query(User).filter(User.email == email).first()
