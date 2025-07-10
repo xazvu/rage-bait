@@ -3,7 +3,7 @@ from sqlalchemy import Integer, String, Text, DateTime, ForeignKey, Float, Boole
 from datetime import datetime
 from sqlalchemy import Table, MetaData
 
-from src.db.engine import Base
+from backend.src.db.engine import Base
 
 
 class User(Base):
