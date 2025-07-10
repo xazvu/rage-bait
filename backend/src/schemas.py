@@ -1,15 +1,12 @@
+from datetime import datetime
+
 from pydantic import BaseModel, EmailStr
 
-class CreateUser(BaseModel):
+
+class ActivityBase(BaseModel):
     name: str
-    email: EmailStr
-    password: str
-    role: str = "user"
-
-
-class ReadUser(CreateUser):
-    id: int
-
-    model_config = {
-        "from_attributes": True
-    }
+    description: str
+    category: str
+    mod: str
+    timestamp: str
+    date_of_activity: datetime

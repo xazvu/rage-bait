@@ -31,13 +31,26 @@ class Activity(Base):
     name: Mapped[str] = mapped_column(String(100))
     description: Mapped[str] = mapped_column(Text)
     category: Mapped[str] = mapped_column(String(50))
-    tags: Mapped[str] = mapped_column(String(200))  # Можно хранить через запятую
-    created_by: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    is_approved: Mapped[bool] = mapped_column(Boolean, default=False)
+    mod: Mapped[str] = mapped_column(String(200))
+    timestamp: Mapped[str] = mapped_column(String(20))
+    date_of_activity: Mapped[datetime] = mapped_column(DateTime)
+    # created_by: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    # is_approved: Mapped[bool] = mapped_column(Boolean, default=False)
 
     favorited_by: Mapped[list["User"]] = relationship("User", secondary="favorites", back_populates="favorites")
     activity_histories: Mapped[list["ActivityHistory"]] = relationship("ActivityHistory", back_populates="activity")
     recommendations: Mapped[list["Recommendation"]] = relationship("Recommendation", back_populates="activity")
+    photos: Mapped[list["ActivityPhoto"]] = relationship("ActivityPhoto", back_populates="activity")
+
+
+class ActivityPhoto(Base):
+    __tablename__ = 'activity_photos'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    activity_id: Mapped[int] = mapped_column(ForeignKey("activities.id"))
+    url: Mapped[str] = mapped_column(String(255))
+
+    activity: Mapped["Activity"] = relationship("Activity", back_populates="photos")
 
 
 class UserPreferences(Base):
