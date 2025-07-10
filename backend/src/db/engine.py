@@ -1,23 +1,21 @@
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
-from sqlalchemy.orm import sessionmaker, declarative_base
+from datetime import datetime
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
-Base = declarative_base()
+from .models import Base
 
+DATABASE_URL = "sqlite:///./terminator.db"  # или другой URL
 
-DATABASE_URL = "sqlite+aiosqlite:///./rage-bite.db"
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Создание асинхронного движка
-engine = create_async_engine(DATABASE_URL, echo=True, future=True)
+# Создать таблицы (один раз)
+def init_db():
+    Base.metadata.create_all(bind=engine)
 
-# Создание асинхронной сессии
-AsyncSessionLocal = async_sessionmaker(bind=engine, expire_on_commit=False, class_=AsyncSession)
-
-# Инициализация базы данных (один раз)
-async def init_db():
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-
-# Зависимость получения сессии (для FastAPI или других фреймворков)
-async def get_session():
-    async with AsyncSessionLocal() as session:
-        yield session
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
