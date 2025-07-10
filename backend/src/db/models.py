@@ -1,9 +1,10 @@
 from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped, relationship
-from sqlalchemy import Integer, String, Text, DateTime, ForeignKey, Float, Boolean
+from sqlalchemy import Integer, String, Text, DateTime, ForeignKey, Float, Boolean, Column
 from datetime import datetime
 from sqlalchemy import Table, MetaData
 
-from backend.src.db.engine import Base
+class Base(DeclarativeBase):
+    pass
 
 
 class User(Base):
@@ -84,6 +85,7 @@ class Recommendation(Base):
 favorites = Table(
     "favorites",
     Base.metadata,
-    mapped_column("user_id", ForeignKey("users.id"), primary_key=True),
-    mapped_column("activity_id", ForeignKey("activities.id"), primary_key=True)
+    Column("user_id", ForeignKey("users.id"), primary_key=True),
+    Column("activity_id", ForeignKey("activities.id"), primary_key=True)
 )
+
