@@ -10,3 +10,11 @@ class ActivityBase(BaseModel):
     mod: str
     timestamp: str
     date_of_activity: datetime
+
+
+class ActivityPhotoBase(BaseModel):
+    url: str
+    is_main: bool
+
+class ActivityPhotoCreate(ActivityPhotoBase):
+    activity_id: str

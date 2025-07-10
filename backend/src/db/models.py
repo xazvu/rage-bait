@@ -33,6 +33,7 @@ class Activity(Base):
     category: Mapped[str] = mapped_column(String(50))
     mod: Mapped[str] = mapped_column(String(200))
     timestamp: Mapped[str] = mapped_column(String(20))
+    budget: Mapped[float] = mapped_column(Float)
     date_of_activity: Mapped[datetime] = mapped_column(DateTime)
     # created_by: Mapped[int] = mapped_column(ForeignKey("users.id"))
     # is_approved: Mapped[bool] = mapped_column(Boolean, default=False)

@@ -30,3 +30,14 @@ def create_activity(
         session: Session = Depends(get_db),
 ):
     return services.create_activity(activate_create=activate_create, session=session)
+
+
+# user
+
+# @router.get('/users/{user_id}')
+# def get_user(
+#         user_id: int,
+#         session: Session = Depends(get_db),
+# ):
+#     return services.get_user(user_id=user_id, session=session)
+#
