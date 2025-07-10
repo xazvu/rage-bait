@@ -22,3 +22,26 @@ class ActivityPhotoBase(BaseModel):
 class ActivityPhotoCreate(BaseModel):
     url: str
     is_main: bool
+
+
+class UserBase(BaseModel):
+    name: str
+    email: str
+
+
+class UserInfo(UserBase):
+    role: str = None
+
+
+class UserOut(BaseModel):
+    id: int
+    email: EmailStr
+    is_active: bool
+
+
+class UserCreate(UserBase):
+    password: str
+    role: str = 'user'
+
+    class Config:
+        from_attributes = True

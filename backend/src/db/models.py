@@ -35,7 +35,7 @@ class Activity(Base):
     timestamp: Mapped[str] = mapped_column(String(20))
     budget: Mapped[float] = mapped_column(Float)
     date_of_activity: Mapped[datetime] = mapped_column(DateTime)
-    # created_by: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    created_by: Mapped[int] = mapped_column(ForeignKey("users.id"))
     # is_approved: Mapped[bool] = mapped_column(Boolean, default=False)
 
     favorited_by: Mapped[list["User"]] = relationship("User", secondary="favorites", back_populates="favorites")

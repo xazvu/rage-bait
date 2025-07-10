@@ -1,11 +1,13 @@
+from typing import Any
 from unicodedata import category
 
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
+from auth.security import bcrypt_password
 from db.models import User, Activity, ActivityPhoto, UserPreferences
 from db.engine import get_db
-from schemas import ActivityBase, ActivityPhotoBase, ActivityPhotoCreate
+from schemas import ActivityBase, ActivityPhotoBase, ActivityPhotoCreate, UserCreate
 
 
 def get_activities(
@@ -21,6 +23,7 @@ def get_activity(
     return session.query(Activity).filter(Activity.id == activity_id).first()
 
 def create_activity(
+        created_by: int,
         activate_create: ActivityBase,
         session: Session = Depends(get_db),
 ):
@@ -31,7 +34,8 @@ def create_activity(
         mod=activate_create.mod,
         budget=activate_create.budget,
         timestamp=activate_create.timestamp,
-        date_of_activity=activate_create.date_of_activity
+        date_of_activity=activate_create.date_of_activity,
+        created_by=created_by,
     )
     session.add(activity)
     session.commit()
@@ -63,9 +67,32 @@ def get_user_preferences(
     return session.query(UserPreferences).all()
 
 
-def get_user(
-        user_id: str = None,
-        email: str = None,
-        session: Session = Depends(get_db)
+def get_user_by_id(
+        user_id: int,
+        session: Session = Depends(get_db),
+
+):
+    return session.query(User).filter(User.id == user_id).first()
+
+
+def get_user_by_email(
+        email: str,
+        session: Session = Depends(get_db),
 ):
     return session.query(User).filter(User.email == email).first()
+
+
+def create_user(
+        user_create: UserCreate,
+        session: Session = Depends(get_db),
+):
+    user = User(
+        name=user_create.name,
+        email=user_create.email,
+        password=bcrypt_password(user_create.password),
+        role='role'
+    )
+    session.add(user)
+    session.commit()
+    session.refresh(user)
+    return user
