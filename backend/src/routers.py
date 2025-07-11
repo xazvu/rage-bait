@@ -65,19 +65,19 @@ def get_user(
 ):
     user = services.get_user_by_id(user_id, session)
     return user
-#
-#
-# @router.get('/users/me', response_model=UserBase)
-# def get_user_profile(
-#     current_user: User = Depends(get_current_user),
-# ):
-#     """Получить профиль текущего пользователя"""
-#     return current_user
-#
-#
-# @router.post('/users/', response_model=UserCreate)
-# def create_user(
-#         user_create: UserCreate,
-#         session: Session = Depends(get_db),
-# ):
-#     return services.create_user(user_create=user_create, session=session)
+
+
+@router.get('/users/me', response_model=UserBase)
+def get_user_profile(
+    current_user: User = Depends(get_current_user),
+):
+    """Получить профиль текущего пользователя"""
+    return current_user
+
+
+@router.post('/users/', response_model=UserCreate)
+def create_user(
+        user_create: UserCreate,
+        session: Session = Depends(get_db),
+):
+    return services.create_user(user_create=user_create, session=session)
