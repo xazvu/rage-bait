@@ -12,7 +12,7 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 
 from db.engine import get_db
-from services import get_user_by_id
+import services
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -40,7 +40,7 @@ def get_current_user(
     user_id = payload.get("sub")
     if user_id is None:
         raise HTTPException(status_code=401, detail="Not Authenticated")
-    user = get_user_by_id(user_id=user_id, session=session)
+    user = services.get_user_by_id(user_id=user_id, session=session)
     if user is None:
         raise HTTPException(status_code=401, detail="User not found")
     return user

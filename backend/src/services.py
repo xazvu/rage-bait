@@ -1,13 +1,11 @@
-from typing import Any
-from unicodedata import category
-
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
+from auth.oauth2 import get_current_user
 from auth.security import bcrypt_password
-from db.models import User, Activity, ActivityPhoto, UserPreferences
+from db.models import User, Activity, ActivityPhoto, UserPreferences, ActivityHistory
 from db.engine import get_db
-from schemas import ActivityBase, ActivityPhotoBase, ActivityPhotoCreate, UserCreate
+from schemas import ActivityBase, ActivityPhotoCreate, UserCreate, ActivityHistoryBase, UserPreferencesBase
 
 
 def get_activities(
@@ -96,3 +94,54 @@ def create_user(
     session.commit()
     session.refresh(user)
     return user
+
+# ActivityHistory
+def get_activity_histories(
+        session: Session = Depends(get_db),
+):
+    return session.query(ActivityHistory).all()
+
+
+def create_activity_history(
+        activity_history_create: ActivityHistoryBase,
+        session: Session = Depends(get_db),
+        current_user: User = Depends(get_current_user)
+):
+    activity_history = ActivityHistory(
+        user_id=current_user,
+        activity_id=activity_history_create.activity_id,
+        rating=activity_history_create.rating,
+        review=activity_history_create.review,
+        timestamp=activity_history_create.timestamp,
+        is_completed=activity_history_create.is_completed
+    )
+    session.add(activity_history)
+    session.commit()
+    session.refresh(activity_history)
+    return activity_history
+
+
+def get_user_preferences(
+        session: Session = Depends(get_db),
+):
+    return session.query(UserPreferences).all()
+
+
+def create_user_preferences(
+        user_preferences_create: UserPreferencesBase,
+        session: Session = Depends(get_db),
+        current_user: User = Depends(get_current_user)
+):
+    user_preferences = UserPreferences(
+        user_id=current_user,
+        mood=user_preferences_create.mood,
+        available_time=user_preferences_create.available_time,
+        budget=user_preferences_create.budget,
+        lcation=user_preferences_create.location
+    )
+
+    session.add(user_preferences)
+    session.commit()
+    session.refresh(user_preferences)
+    return user_preferences
+

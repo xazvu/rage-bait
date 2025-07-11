@@ -25,6 +25,7 @@ class ActivityPhotoCreate(BaseModel):
 
 
 class UserBase(BaseModel):
+    id: int
     name: str
     email: str
 
@@ -45,3 +46,20 @@ class UserCreate(UserBase):
 
     class Config:
         from_attributes = True
+
+
+class ActivityHistoryBase(BaseModel):
+    id: int
+    user_id: int
+    activity_id: int
+    timestamp: datetime
+    rating: int
+    review: str
+    is_completed: bool
+
+
+class  UserPreferencesBase(BaseModel):
+    mood: str
+    available_time: int
+    budget: float
+    location: str

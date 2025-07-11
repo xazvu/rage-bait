@@ -63,7 +63,6 @@ class UserPreferences(Base):
     available_time: Mapped[int] = mapped_column(Integer)  # в минутах
     budget: Mapped[float] = mapped_column(Float)
     location: Mapped[str] = mapped_column(String(100))
-    preference_data: Mapped[str] = mapped_column(Text)  # Дополнительные настройки (JSON)
 
     user: Mapped["User"] = relationship("User", back_populates="preferences")
 
