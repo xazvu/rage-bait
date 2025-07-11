@@ -2,5 +2,10 @@ venv/
 .idea
 .env
 .db
+<<<<<<< HEAD
 
 __pycache__
+=======
+__pycache__
+*__pycache__
+>>>>>>> develop

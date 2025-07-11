@@ -1,6 +1,5 @@
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Session
 
 from auth.oauth2 import create_access_token
@@ -23,6 +22,6 @@ def get_user_token(
         data={
             "sub": str(user.id),
             "email": user.email,
-            "username": user.username,
+            "username": user.name,
         })
     return Token(access_token=access_token, token_type="bearer")

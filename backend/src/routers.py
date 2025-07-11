@@ -52,12 +52,12 @@ def create_activity_photo(
 def get_users(name, email):
     return {'name': name, 'email': email}
 
-
 @router.get('/activity_photos/', response_model=list[ActivityPhotoBase])
 def get_list_photos(
         session: Session = Depends(get_db)
 ):
     return session.query(ActivityPhoto).all()
+
 
 
 @router.get('/users/{user_id}', response_model=UserBase)
