@@ -7,6 +7,7 @@ from auth.routers import auth_app
 
 init_db()
 
+
 app = FastAPI()
 
 app.include_router(user)

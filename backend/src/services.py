@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-from fastapi import Depends
-=======
-
 from fastapi import Depends, HTTPException
 from pydantic import EmailStr
->>>>>>> develop
 from sqlalchemy.orm import Session
 from starlette import status
 
@@ -12,17 +7,18 @@ from auth.oauth2 import get_current_user
 from auth.security import bcrypt_password
 from db.models import User, Activity, ActivityPhoto, UserPreferences, ActivityHistory
 from db.engine import get_db
-<<<<<<< HEAD
-from schemas import ActivityBase, ActivityPhotoCreate, UserCreate, ActivityHistoryBase, UserPreferencesBase
-=======
+from schemas import ActivityBase, ActivityPhotoCreate, UserCreate, ActivityHistoryBase, UserPreferencesBase, \
+    ActivityFullInfo
+
 from schemas import ActivityBase, ActivityPhotoCreate, UserCreate
->>>>>>> develop
 
 
 def get_activities(
         session: Session = Depends(get_db),
 ):
-    return session.query(Activity).all()
+    activity = session.query(Activity).all()
+
+    return {'activity': activity, 'photos': [photo for act in activity for photo in act.photos]}
 
 
 def get_activity(
@@ -40,7 +36,7 @@ def create_activity(
         name=activate_create.name,
         description=activate_create.description,
         category=activate_create.category,
-        mod=activate_create.mod,
+        mood=activate_create.mod,
         budget=activate_create.budget,
         timestamp=activate_create.timestamp,
         date_of_activity=activate_create.date_of_activity,
@@ -108,7 +104,6 @@ def create_user(
     session.refresh(user)
     return user
 
-<<<<<<< HEAD
 # ActivityHistory
 def get_activity_histories(
         session: Session = Depends(get_db),
@@ -158,7 +153,5 @@ def create_user_preferences(
     session.commit()
     session.refresh(user_preferences)
     return user_preferences
-=======
 
->>>>>>> develop
 
