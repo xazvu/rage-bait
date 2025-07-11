@@ -6,7 +6,7 @@ from auth.oauth2 import create_access_token
 from auth.schemas import Token
 from auth.security import verify_password
 from db.engine import get_db
-
+from db.models import User
 from services import get_user_by_email
 
 
