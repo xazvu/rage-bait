@@ -4,6 +4,7 @@ from pydantic import BaseModel, EmailStr
 
 
 class ActivityBase(BaseModel):
+    id: int
     name: str
     description: str
     budget: float
@@ -11,6 +12,11 @@ class ActivityBase(BaseModel):
     mod: str
     timestamp: str
     date_of_activity: datetime
+
+
+class ActivityFullInfo(ActivityBase):
+    imgs: list[dict]
+
 
 
 class ActivityPhotoBase(BaseModel):
@@ -25,8 +31,13 @@ class ActivityPhotoCreate(BaseModel):
 
 
 class UserBase(BaseModel):
+    id: int
     name: str
     email: str
+    role: str
+
+    class Config:
+        from_attributes = True
 
 
 class UserInfo(UserBase):

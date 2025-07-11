@@ -40,16 +40,12 @@ def create_activity(
 def create_activity_photo(
         activity_id: int,
         activate_photo_create: list[ActivityPhotoCreate],
+        current_user: User = Depends(get_current_user),
         session: Session = Depends(get_db)
 ):
     return services.create_activity_photos(activity_id=activity_id,
                                            session=session,
                                            activate_photo_create=activate_photo_create)
-
-
-@router.get('/users/', response_model=UserBase)
-def get_users(name, email):
-    return {'name': name, 'email': email}
 
 @router.get('/activity_photos/', response_model=list[ActivityPhotoBase])
 def get_list_photos(
@@ -58,26 +54,27 @@ def get_list_photos(
     return session.query(ActivityPhoto).all()
 
 
+
 @router.get('/users/{user_id}', response_model=UserBase)
 def get_user(
         user_id: int,
         session: Session = Depends(get_db),
 ):
-    user = services.get_user_by_id(user_id, session)
+    user = services.get_user_by_id(user_id=user_id, session=session)
     return user
 #
 #
-# @router.get('/users/me', response_model=UserBase)
-# def get_user_profile(
-#     current_user: User = Depends(get_current_user),
-# ):
-#     """Получить профиль текущего пользователя"""
-#     return current_user
+@router.get('/users/me', response_model=UserBase)
+def get_user_profile(
+    current_user: User = Depends(get_current_user),
+):
+    """Получить профиль текущего пользователя"""
+    return current_user
+
 #
-#
-# @router.post('/users/', response_model=UserCreate)
-# def create_user(
-#         user_create: UserCreate,
-#         session: Session = Depends(get_db),
-# ):
-#     return services.create_user(user_create=user_create, session=session)
+@router.post('/users/', response_model=UserCreate)
+def create_user(
+        user_create: UserCreate,
+        session: Session = Depends(get_db),
+):
+    return services.create_user(user_create=user_create, session=session)
