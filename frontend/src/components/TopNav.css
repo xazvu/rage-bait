@@ -1,0 +1,45 @@
+/* src/components/Navigation/TopNav.css */
+.top-nav {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    background: white;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2563eb;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .nav-link {
+    text-decoration: none;
+    color: #666;
+    font-size: 16px;
+    transition: color 0.2s ease;
+  }
+
+  .nav-link:hover {
+    color: #2563eb;
+  }
+
+  .nav-link.active {
+    color: #2563eb;
+    font-weight: 600;
+  }
+}

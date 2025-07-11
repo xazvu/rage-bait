@@ -1,0 +1,108 @@
+/* src/styles.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f9fafb;
+  color: #111827;
+  line-height: 1.6;
+}
+
+.activity-detail {
+  max-width: 1000px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.activity-carousel {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #e5e7eb;
+}
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  padding: 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 50%;
+  z-index: 10;
+}
+
+.carousel-btn.prev {
+  left: 1rem;
+}
+
+.carousel-btn.next {
+  right: 1rem;
+}
+
+.activity-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.activity-info h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.activity-info p {
+  font-size: 1rem;
+}
+
+.activity-info strong {
+  color: #2563eb;
+}
+
+.not-found {
+  text-align: center;
+  margin-top: 4rem;
+  font-size: 1.2rem;
+  color: #ef4444;
+}
+
+.back-button {
+  background-color: #2563eb;
+  color: black;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: fit-content;
+}
+
+.back-button:hover {
+  background-color: #1d4ed8;
+}
