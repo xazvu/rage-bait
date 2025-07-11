@@ -31,11 +31,11 @@ class Activity(Base):
     name: Mapped[str] = mapped_column(String(100))
     description: Mapped[str] = mapped_column(Text)
     category: Mapped[str] = mapped_column(String(50))
-    mod: Mapped[str] = mapped_column(String(200))
+    mood: Mapped[str] = mapped_column(String(200))
     timestamp: Mapped[str] = mapped_column(String(20))
     budget: Mapped[float] = mapped_column(Float)
     date_of_activity: Mapped[datetime] = mapped_column(DateTime)
-    # created_by: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    created_by: Mapped[int] = mapped_column(ForeignKey("users.id"))
     # is_approved: Mapped[bool] = mapped_column(Boolean, default=False)
 
     favorited_by: Mapped[list["User"]] = relationship("User", secondary="favorites", back_populates="favorites")
@@ -63,7 +63,6 @@ class UserPreferences(Base):
     available_time: Mapped[int] = mapped_column(Integer)  # в минутах
     budget: Mapped[float] = mapped_column(Float)
     location: Mapped[str] = mapped_column(String(100))
-    preference_data: Mapped[str] = mapped_column(Text)  # Дополнительные настройки (JSON)
 
     user: Mapped["User"] = relationship("User", back_populates="preferences")
 
